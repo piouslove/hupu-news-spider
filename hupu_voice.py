@@ -14,7 +14,7 @@ class HPnews:
 		self.news = []
 		self.enable = False
 
-	def getpage(self,page):
+	def getpage(self,page):#得到xpath页面选择器
 		try:
 			url = "https://voice.hupu.com/nba/" + str(page)			
 			request = urllib2.Request(url,headers = self.headers)
@@ -28,7 +28,7 @@ class HPnews:
 				print u"链接虎扑失败，原因为：",e.reason
 				return None
 
-	def getnews(self,page):
+	def getnews(self,page):#得到每页网页的新闻主题，链接，时间
 		selector = self.getpage(page)
 		news_perpage = []
 		titles = selector.xpath("//div[@class='news-list']/ul/li/div/h4/a/text()")
@@ -39,7 +39,7 @@ class HPnews:
 		news_perpage.append(hrefs)
 		return news_perpage
 
-	def loadnews(self):
+	def loadnews(self):#将每页新闻加入总新闻List
 		if self.enable == True:
 			if len(self.news) < 2:
 				news_perpage = self.getnews(self.page)
@@ -47,7 +47,7 @@ class HPnews:
 					self.news.append(news_perpage)
 					self.page += 1
 
-	def readnews(self,news_perpage,page):
+	def readnews(self,news_perpage,page):#读取新闻
 		for i in range(len(news_perpage[0])):
 			input = raw_input()
 			self.loadnews()
